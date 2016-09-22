@@ -1,6 +1,7 @@
-module App exposing (..)
+module Main exposing (..)
 
-import Html exposing (Html, div, text)
+import Html exposing (Html, button, div, text)
+import Html.Events exposing (onClick)
 import Html.App
 
 
@@ -8,20 +9,20 @@ import Html.App
 
 
 type alias Model =
-    String
+    Int
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( "Hello", Cmd.none )
+    ( 0, Cmd.none )
 
 
 
--- MESSAGE
+-- MESSAGES
 
 
 type Msg
-    = NoOp
+    = Increment Int
 
 
 
@@ -31,7 +32,9 @@ type Msg
 view : Model -> Html Msg
 view model =
     div []
-        [ text model ]
+        [ button [ onClick (Increment 2) ] [ text "+" ]
+        , text (toString model)
+        ]
 
 
 
@@ -41,8 +44,8 @@ view model =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        NoOp ->
-            ( model, Cmd.none )
+        Increment howMuch ->
+            ( model + howMuch, Cmd.none )
 
 
 
@@ -52,6 +55,10 @@ update msg model =
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.none
+
+
+
+-- MAIN
 
 
 main : Program Never
